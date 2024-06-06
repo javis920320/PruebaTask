@@ -63,6 +63,12 @@ class TaskController
             return;
         }
 
+        if (!is_string($data['title']) || !is_string($data['description']) || !is_numeric($data['id'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Tipos de datos incorrectos']);
+            return;
+        }
+
 
         $taskId = $this->taskModel->updateTask($data["title"], $data["description"],($data["completed"]==true?1:0),$data["id"]);
         echo $taskId;
@@ -118,10 +124,7 @@ class TaskController
             return;
         }
         
-         
             $tasks = $this->taskModel->filterId($data['id']);
-         
-
         
         echo json_encode($tasks);
     }
